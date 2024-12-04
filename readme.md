@@ -6,5 +6,6 @@
 
 
 ### 2024.12.4的问题
-* children的嵌套问题，看如何解决。
-* eval的执行问题，eval有块作用域，并且new出来的Chart会覆盖原本的proxy，所以需要想个办法解决。 => 执行把Chart替换为我们的Proxy构造class，这样既能解决初试options的设置，还能完美替换。
+[] children的嵌套问题，看如何解决。
+[x] eval的执行问题，eval有块作用域，并且new出来的Chart会覆盖原本的proxy，所以需要想个办法解决。 => 执行把Chart替换为我们的Proxy构造class，这样既能解决初试options的设置，还能完美替换。
+[] transform的属性会从对象转化为数组，这个需要看下需不需要做特殊处理

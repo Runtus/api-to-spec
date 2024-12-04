@@ -35,25 +35,6 @@ const data = [
   { year: "1962 年", sales: 38 },
 ];
 
-// // 替换g2的Chart用的
-// class Chart {
-//   _origin = {};
-//   _originOptions;
-//   _funcCall = []
-
-//   constructor(options = {}) {
-//     this._originOptions = options;
-//   }
-
-//   getProxyObj() {
-//     const that = this;
-
-//   }
-
-//   getFuncCall() {
-//     return this._funcCall;
-//   }
-// }
 
 /**
  *
@@ -61,9 +42,7 @@ const data = [
  */
 function reduceSameNameFunc(funcs_call) {
   const map = new Map();
-
   funcs_call = funcs_call.filter((func) => func.name !== "render");
-
   funcs_call.forEach((func) => {
     let { name, args } = func;
   
@@ -98,12 +77,12 @@ function getOptions(map) {
  *
  * @param {string} str
  */
-function apiToSpec(str) {
+export function apiToSpec(str) {
   str = str
     .split("\n")
     .filter((line) => !line.includes("@antv/g2"))
     .join("\n");
-  str = str + "proxyObj = chart";
+
 
   const _funcCall = [];
   const _origin = {};
@@ -137,11 +116,9 @@ function apiToSpec(str) {
   console.log("newOptions", newOptions)
   
 
-  // const formatMap = reduceSameNameFunc(app.getFuncCall())
-
-  // const options = getOptions(formatMap);
-
-  // console.log(options)
+  return {
+    options: _options,
+    newOptions
+  };
 }
 
-apiToSpec(testAPIData);
