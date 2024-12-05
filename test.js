@@ -7,31 +7,38 @@ const chart = new Chart({
   autoFit: true,
 });
 
-chart.coordinate({ transform: [{ type: 'transpose' }] });
+const data = [
+  { time: '10:10', call: 4, waiting: 2, people: 2 },
+  { time: '10:15', call: 2, waiting: 6, people: 3 },
+  { time: '10:20', call: 13, waiting: 2, people: 5 },
+  { time: '10:25', call: 9, waiting: 9, people: 1 },
+  { time: '10:30', call: 5, waiting: 2, people: 3 },
+  { time: '10:35', call: 8, waiting: 2, people: 1 },
+  { time: '10:40', call: 13, waiting: 1, people: 2 },
+];
+
+chart.data(data);
 
 chart
   .interval()
-  .data({
-    type: 'fetch',
-    value:
-      'https://gw.alipayobjects.com/os/bmw-prod/87b2ff47-2a33-4509-869c-dae4cdd81163.csv',
-    transform: [
-      {
-        type: 'filter',
-        callback: (d) => d.year === 2000,
-      },
-    ],
-  })
-  .encode('x', 'age')
-  .encode('y', (d) => (d.sex === 1 ? -d.people : d.people))
-  .encode('color', 'sex')
-  .scale('color', { type: 'ordinal' })
-  .scale('x', { range: [1, 0] })
-  .axis('y', { labelFormatter: '~s' })
-  .legend('color', { labelFormatter: (d) => (d === 1 ? 'Male' : 'Female') })
-  .tooltip((d) => ({ value: d.people, name: d.sex === 1 ? 'Male' : 'Female' }));
+  .encode('x', 'time')
+  .encode('y', 'waiting')
+  .encode('color', () => 'waiting')
+  .encode('series', () => 'waiting')
+  .axis('y', { title: 'Waiting' });
+
+chart
+  .interval()
+  .encode('x', 'time')
+  .encode('y', 'people')
+  .encode('color', () => 'people')
+  .encode('series', () => 'people')
+  .scale('y', { independent: true })
+  .axis('y', { position: 'right', grid: null, title: 'People' });
 
 chart.render();
+;
+
 `;
 
 
@@ -62,8 +69,6 @@ const onTextareaChange = debounce((value) => {
     console.log(input)
     eval(input);
 
-
-    
 }, 500)
 
 const onButtonClick = () => {
